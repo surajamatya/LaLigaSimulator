@@ -78,16 +78,6 @@ public class LaLigaMain
         int answer;
         do {
         	answer = JOptionPane.showOptionDialog(null, "message", "Your Options", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, menuOptions, null);
-        // ask for input
-//        	System.out.println("Options Menu: ");		
-//        	System.out.println("[0]-Match schedule");	
-//        	System.out.println("[1]-Team Info");	
-//        	System.out.println("[2]-Simulate match");
-//        	System.out.println("[3]-League Standing");	
-//    		Scanner scan = new Scanner(System.in);		
-//    		String answer = scan.nextLine();
-   
- //   		int menu = Integer.parseInt(answer);
 		
 		switch (answer)
 		{
