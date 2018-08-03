@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import javax.swing.JOptionPane;
+
 public class LaLigaMain 
 {
 	
@@ -8,14 +10,10 @@ public class LaLigaMain
 	{
 		// ask for number of teams in the league
 		int numTeams = 0;
-		int minTeams = 3;
+		int minTeams = 2;
 		do {
-		
-		System.out.println("How many teams in the league? (minimum 3 teams)");		
-		Scanner scanner = new Scanner(System.in);		
-		String num = scanner.nextLine();
-
-		numTeams = Integer.parseInt(num);
+			String num = JOptionPane.showInputDialog(null,"Please enter the number of teams you want to create.");
+			numTeams = Integer.parseInt(num);
 		}
 		while (numTeams<minTeams);
 			
@@ -24,23 +22,25 @@ public class LaLigaMain
 		Team[] allTeams = new Team[numTeams];
 		
 		// create teams
-		allTeams[0] = new Team("Barcelona");	
-		allTeams[1] = new Team("Real Madrid", 20);
-		allTeams[2] = new Team("Atletico Madrid", 18);
+		String[] myTeamNames = {"Barcelona","Real Madrid","Atletico Madrid","Valencia","Villareal","Levante","Malaga","Getafe","Atletico Bilbao","Eibar"};
 		
 		System.out.println("                   Teams                         ");
 		System.out.println("-------------------------------------------------");
-		System.out.println("Team 1: " + allTeams[0] .getTeamName() + ", Players = " + allTeams[0].getNumberOfPlayers());
-		System.out.println("Team 2: " + allTeams[1] .getTeamName() + ", Players = " + allTeams[1].getNumberOfPlayers());
-		System.out.println("Team 3: " + allTeams[2] .getTeamName() + ", Players = " + allTeams[2].getNumberOfPlayers());
 		
 		if(numTeams > minTeams)
 		{
-			for(int i=minTeams; i<numTeams; ++i)
+			for(int i=0; i<numTeams; ++i)
 			{
-				allTeams[i] = new Team();
-				System.out.println("Team " + (i+1) + ": " + allTeams[i].getTeamName() + ", Players = " + allTeams[i].getNumberOfPlayers());
+				if(i<myTeamNames.length)
+				{
+					allTeams[i]=new Team(myTeamNames[i]);
+				}
+				else
+				{
+					allTeams[i] = new Team();
+				}
 				
+				System.out.format("%4s%2d%2s%-17s%10s%2d\n", "Team" , (i+1) , ": " , allTeams[i].getTeamName() , "-> Players = " , allTeams[i].getNumberOfPlayers());				
 			}
 		}
 		
@@ -74,43 +74,38 @@ public class LaLigaMain
         for (int i=0; i<teamb.size(); i++)
             System.out.println(teamb.get(i));
         
-        int exitthis=0;
+        Object[] menuOptions = {"Teams","Match Schedule","Match Simulation","Standings","Exit"};
+        int answer;
         do {
-	
+        	answer = JOptionPane.showOptionDialog(null, "message", "Your Options", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, menuOptions, null);
         // ask for input
-        	System.out.println("Options Menu: ");		
-        	System.out.println("[0]-Match schedule");	
-        	System.out.println("[1]-Team Info");	
-        	System.out.println("[2]-Simulate match");
-        	System.out.println("[3]-League Standing");	
-    		Scanner scan = new Scanner(System.in);		
-    		String answer = scan.nextLine();
+//        	System.out.println("Options Menu: ");		
+//        	System.out.println("[0]-Match schedule");	
+//        	System.out.println("[1]-Team Info");	
+//        	System.out.println("[2]-Simulate match");
+//        	System.out.println("[3]-League Standing");	
+//    		Scanner scan = new Scanner(System.in);		
+//    		String answer = scan.nextLine();
    
-    		int menu = Integer.parseInt(answer);
+ //   		int menu = Integer.parseInt(answer);
 		
-		switch (menu)
+		switch (answer)
 		{
 		case 0:
 			System.out.println("all match schedule");
 			break;
 		case 1:
 			System.out.println("Select team number");
-			String teamNum = scan.nextLine();
-    		int num = Integer.parseInt(teamNum);
-			System.out.println("Team info of " + allTeams[num].getTeamName());
-			System.out.println(allTeams[0]);
 			break;
 		case 2:
 			System.out.println("exit");
-			exitthis=1;
 			break;
 		default:
 			System.out.println("all match schedule");
-			exitthis=1;
 			break;
 		}
 		
-        } while(exitthis !=1);
+        } while(answer !=4);
         
         MatchSimulation simulation = new MatchSimulation();
         simulation.start(allTeams, allMatches);
