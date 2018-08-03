@@ -82,7 +82,13 @@ public class LaLigaMain
 		switch (answer)
 		{
 		case 0:
-			System.out.println("all match schedule");
+			System.out.println("                   Teams                         ");
+			System.out.println("-------------------------------------------------");
+			for(int i=0; i<allTeams.length; i++)
+			{
+				System.out.format("%4s%2d%2s%-17s%10s%2d\n", "Team" , (i+1) , ": " , allTeams[i].getTeamName() , "-> Players = " , allTeams[i].getNumberOfPlayers());				
+				
+			}
 			break;
 		case 1:
 			System.out.println("Select team number");
