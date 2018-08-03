@@ -64,6 +64,8 @@ public class LaLigaMain
         for (int i=0; i<teamb.size(); i++)
             System.out.println(teamb.get(i));
         
+        int[][] leagueTable = null;// initialize league table
+        int[][] leagueStanding = null; // initialize league standings
         Object[] menuOptions = {"Teams","Match Schedule","Match Simulation","Standings","Exit"};
         int answer;
         do {
@@ -72,12 +74,12 @@ public class LaLigaMain
 		switch (answer)
 		{
 		case 0: // team info
-			System.out.println("                   Teams                         ");
-			System.out.println("-------------------------------------------------");
+			System.out.println("No.  Teams             Played      Wins        Draws       Losses      Points ");
+			System.out.println("------------------------------------------------------------------------------");
 			for(int i=0; i<allTeams.length; i++)
 			{
-				System.out.format("%4s%2d%2s%-17s%10s%2d%5d%5d%5d%5d%5d\n", "Team" , (i+1) , ": " ,
-						allTeams[i].getTeamName() , "-> Players = ",allTeams[i].getNumberOfPlayers(),
+				System.out.format("%2d%2s%-17s%6d%12d%12d%12d%12d\n", (i+1) , "  " ,
+						allTeams[i].getTeamName(),
 						allTeams[i].getGamesPlayed(),allTeams[i].getGamesWon(),
 						allTeams[i].getGamesDrawn(),allTeams[i].getGamesLost(),
 						allTeams[i].getLeaguePoints());
@@ -95,10 +97,26 @@ public class LaLigaMain
 			
 		case 2://match simulation
 			MatchSimulation simulation = new MatchSimulation();
-	        simulation.start(allTeams, allMatches);
+	        leagueTable = simulation.start(allTeams, allMatches);
 			break;
 			
 		case 3: // league standings
+			MatchSimulation simulation1 = new MatchSimulation();
+			leagueStanding = simulation1.leagueStanding(leagueTable);
+			
+			System.out.println("Rank  Teams             Played      Wins        Draws       Losses      Points ");
+			System.out.println("------------------------------------------------------------------------------");
+			for(int i=0; i<allTeams.length; i++)
+			{
+				System.out.format("%4d%2s%-17s%6d%12d%12d%12d%12d\n", (i+1) , "  " ,
+						allTeams[leagueStanding[i][0]].getTeamName(),
+						allTeams[leagueStanding[i][0]].getGamesPlayed(),
+						allTeams[leagueStanding[i][0]].getGamesWon(),
+						allTeams[leagueStanding[i][0]].getGamesDrawn(),
+						allTeams[leagueStanding[i][0]].getGamesLost(),
+						allTeams[leagueStanding[i][0]].getLeaguePoints());
+			}
+			
 			break;
 			
 		default: 

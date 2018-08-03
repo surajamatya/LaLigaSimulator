@@ -1,58 +1,83 @@
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
 
 public class MatchSimulation {
 
-	void start(Team[] allTeams, int[][] allMatches)
+	int[][] start(Team[] allTeams, int[][] allMatches)
 	{
-		System.out.println("teams = " + allTeams.length);
-		System.out.println("matches = " + allMatches.length);
-		
+
 		int[] outcomes= {0,1,2};
+		// initialize league table : team no., played, won, drawn, lost, points
+		int[][] leagueTable = new int[allTeams.length][6];
 		
 		for(int i=0; i<allMatches.length; i++)
 		{
-			System.out.println("\n Matchday "+(i+1)+": Simulation in progress...");
-			System.out.println("   "+ allTeams[allMatches[i][0]].getTeamName() + " vs " + allTeams[allMatches[i][1]].getTeamName());
-			
-			// games counter
-			int played1 = allTeams[allMatches[i][0]].getGamesPlayed();
-			int played2 = allTeams[allMatches[i][1]].getGamesPlayed();
-			
-			played1++;
-			played2++;
-			allTeams[allMatches[i][0]].setGamesPlayed(played1);
-			allTeams[allMatches[i][1]].setGamesPlayed(played2);
+			System.out.println("\n Matchday "+(i+1)+" :  "+ allTeams[allMatches[i][0]].getTeamName() + " vs " + allTeams[allMatches[i][1]].getTeamName());
 			
 			int pick = outcomes[new Random().nextInt(outcomes.length)];
 			switch(pick)
 			{
 			case 0: // team 1 lost
+				// team 1
+				leagueTable[allMatches[i][0]][1]++;
+				leagueTable[allMatches[i][0]][4]++;
 				
-				int points2 = allTeams[allMatches[i][1]].getLeaguePoints();
-				points2 = points2 +3;
-				allTeams[allMatches[i][1]].setLeaguePoints(points2);
-				System.out.println(allTeams[allMatches[i][1]] + " WON ");
+				// team 2
+				leagueTable[allMatches[i][1]][1]++;
+				leagueTable[allMatches[i][1]][2]++;
+				leagueTable[allMatches[i][1]][5] += 3;
+				System.out.println(allTeams[allMatches[i][1]].getTeamName() + " WON ");
 				break;
 				
-			case 1: // draw
-				int points1 = allTeams[allMatches[i][0]].getLeaguePoints();
-				points1++;
-				allTeams[allMatches[i][0]].setLeaguePoints(points1);
+			case 1: // draw				
+				// team 1
+				leagueTable[allMatches[i][0]][1]++;
+				leagueTable[allMatches[i][0]][3]++;
+				leagueTable[allMatches[i][0]][5]++;
 				
-				int points22 = allTeams[allMatches[i][1]].getLeaguePoints();
-				points22++;
-				allTeams[allMatches[i][1]].setLeaguePoints(points22);
+				// team 2
+				leagueTable[allMatches[i][1]][1]++;
+				leagueTable[allMatches[i][1]][3]++;
+				leagueTable[allMatches[i][1]][5]++;
 				System.out.println(" DRAW ");
 				break;
 				
-			case 2: // team 1 win
-				int points11 = allTeams[allMatches[i][0]].getLeaguePoints();
-				points11 = points11 +3;
-				allTeams[allMatches[i][0]].setLeaguePoints(points11);
-				System.out.println(allTeams[allMatches[i][0]] + " WON ");
+			case 2: // team 1 win				
+				// team 1
+				leagueTable[allMatches[i][0]][1]++;
+				leagueTable[allMatches[i][0]][2]++;
+				leagueTable[allMatches[i][0]][5] += 3;
+				
+				// team 2
+				leagueTable[allMatches[i][1]][1]++;
+				leagueTable[allMatches[i][1]][4]++;
+				
+				System.out.println(allTeams[allMatches[i][0]].getTeamName() + " WON ");
 				break;
 				
 			}
 		}
+		
+		for(int i=0;i<allTeams.length; i++)
+		{
+			//team attributes
+			leagueTable[i][0]=i;
+			allTeams[i].setGamesPlayed(leagueTable[i][1]);
+			allTeams[i].setGamesWon(leagueTable[i][2]);
+			allTeams[i].setGamesDrawn(leagueTable[i][3]);
+			allTeams[i].setGamesLost(leagueTable[i][4]);
+			allTeams[i].setLeaguePoints(leagueTable[i][5]);
+		}
+		return leagueTable;
+	}
+	
+	public int[][] leagueStanding(int [][] leagueTable) 
+	{
+		int[][] leagueStanding = leagueTable;
+		Arrays.sort(leagueStanding, Comparator.comparingInt(arr ->arr[5]));
+		return leagueStanding;
 	}
 }
