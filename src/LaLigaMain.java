@@ -24,7 +24,6 @@ public class LaLigaMain
 		Team[] allTeams = new Team[numTeams];
 		
 		// create teams
-		String[] myTeamNames = {"Barcelona"};
 		allTeams[0] = new Team("Barcelona");	
 		allTeams[1] = new Team("Real Madrid", 20);
 		allTeams[2] = new Team("Atletico Madrid", 18);
