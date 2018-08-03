@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class Team {
@@ -22,6 +21,11 @@ public class Team {
 		this.numberOfPlayers = 17;
 		ArrayList<String> teamGames = new ArrayList<String>(1);
 		this.teamGames = teamGames;
+		this.gamesDrawn = 0;
+		this.gamesLost = 0;
+		this.gamesPlayed = 0;
+		this.gamesWon = 0;
+		this.leaguePoints = 0;
 	}
 	
 	public Team(String teamName)
@@ -30,6 +34,11 @@ public class Team {
 		this.numberOfPlayers = 15;
 		ArrayList<String> teamGames = new ArrayList<String>(1);
 		this.teamGames = teamGames;
+		this.gamesDrawn = 0;
+		this.gamesLost = 0;
+		this.gamesPlayed = 0;
+		this.gamesWon = 0;
+		this.leaguePoints = 0;
 	}
 	
 	public Team(String teamName, int numberOfPlayers)
@@ -38,6 +47,11 @@ public class Team {
 		this.numberOfPlayers = numberOfPlayers;
 		ArrayList<String> teamGames = new ArrayList<String>(1);
 		this.teamGames = teamGames;
+		this.gamesDrawn = 0;
+		this.gamesLost = 0;
+		this.gamesPlayed = 0;
+		this.gamesWon = 0;
+		this.leaguePoints = 0;
 	}
 	
 	public String getTeamName() {

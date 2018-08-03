@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.Scanner;
-
 import javax.swing.JOptionPane;
 
 public class LaLigaMain 
@@ -50,14 +48,6 @@ public class LaLigaMain
 		allMatches = leagueGames.matchingTeam(allTeams);
 		
 		
-//		for (int i=0; i< mymatches.length ; i++)
-//        {
-//            for (int j=0; j < 2 ; j++)
-//                System.out.print(mymatches[i][j] + " ");
-// 
-//            System.out.println();
-//        }
-		
 		ArrayList<String> teama = allTeams[0].getTeamGames();
 		// Printing elements one by one
 		System.out.println(" ");
@@ -81,30 +71,44 @@ public class LaLigaMain
 		
 		switch (answer)
 		{
-		case 0:
+		case 0: // team info
 			System.out.println("                   Teams                         ");
 			System.out.println("-------------------------------------------------");
 			for(int i=0; i<allTeams.length; i++)
 			{
-				System.out.format("%4s%2d%2s%-17s%10s%2d\n", "Team" , (i+1) , ": " , allTeams[i].getTeamName() , "-> Players = " , allTeams[i].getNumberOfPlayers());				
-				
+				System.out.format("%4s%2d%2s%-17s%10s%2d%5d%5d%5d%5d%5d\n", "Team" , (i+1) , ": " ,
+						allTeams[i].getTeamName() , "-> Players = ",allTeams[i].getNumberOfPlayers(),
+						allTeams[i].getGamesPlayed(),allTeams[i].getGamesWon(),
+						allTeams[i].getGamesDrawn(),allTeams[i].getGamesLost(),
+						allTeams[i].getLeaguePoints());
 			}
 			break;
-		case 1:
-			System.out.println("Select team number");
+			
+		case 1: // match schedule
+			System.out.println("                   League Games                         ");
+			System.out.println("--------------------------------------------------------");
+			for(int i=0; i<allMatches.length; i++)
+			{
+				System.out.println("Matchday" + (i+1) + ": "+ allTeams[allMatches[i][0]].getTeamName() + " vs " + allTeams[allMatches[i][1]].getTeamName());
+			}
 			break;
-		case 2:
-			System.out.println("exit");
+			
+		case 2://match simulation
+			MatchSimulation simulation = new MatchSimulation();
+	        simulation.start(allTeams, allMatches);
 			break;
-		default:
+			
+		case 3: // league standings
+			break;
+			
+		default: 
 			System.out.println("all match schedule");
 			break;
 		}
 		
         } while(answer !=4);
         
-        MatchSimulation simulation = new MatchSimulation();
-        simulation.start(allTeams, allMatches);
+        
 	}
 
 
