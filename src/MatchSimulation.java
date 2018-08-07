@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
 public class MatchSimulation {
@@ -18,7 +19,7 @@ public class MatchSimulation {
 	int[][] start(Team[] allTeams, int[][] allMatches)
 	{
 
-		int[] outcomes= {0,1,2};
+		int[] outcomes= {0,1,1,2};
 		// initialize league table : team no., played, won, drawn, lost, points
 		int[][] leagueTable = new int[allTeams.length][6];
 		
@@ -26,11 +27,11 @@ public class MatchSimulation {
 		int rows = allMatches.length;
 	    int cols = 4;
 	    
-	    int frameHeight = (rows*35);
+	    int frameHeight = (rows*30);
 	    int frameWidth = (cols * 100);
 	    
-	    if(frameHeight<100)
-	    	frameHeight=100;
+	    if(frameHeight>1000)
+	    	frameHeight=1000;
 
 	    JFrame frame = new JFrame("Match Simulation");
 
@@ -39,6 +40,8 @@ public class MatchSimulation {
 	    
 
 	    JPanel pane = new JPanel(new GridBagLayout());
+	    JScrollPane scrollFrame = new JScrollPane(pane, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+	    
 
 	    GridBagConstraints c = new GridBagConstraints();
 	    c.fill = GridBagConstraints.HORIZONTAL;
@@ -72,8 +75,8 @@ public class MatchSimulation {
 	    	pane.add(label1,c);	    	
 	    }
 	    
-	    
-	    frame.getContentPane().add(pane);
+	    frame.add(scrollFrame);    
+	    //frame.getContentPane().add(pane);
 	    frame.setVisible(true);
 	    	    
 		// start simulation
@@ -107,7 +110,7 @@ public class MatchSimulation {
 		    	c.gridx = 1;
 		    	c.gridy = i;
 		    	label1.setHorizontalAlignment(SwingConstants.RIGHT);
-		    	label1.setBackground(Color.MAGENTA);
+		    	label1.setBackground(Color.RED);
 		    	label1.setOpaque(true);
 		    	pane.add(label1,c);
 		    	
@@ -182,7 +185,7 @@ public class MatchSimulation {
 		    	c.gridx = 3;
 		    	c.gridy = i;
 		    	label1.setHorizontalAlignment(SwingConstants.LEFT);
-		    	label1.setBackground(Color.MAGENTA);
+		    	label1.setBackground(Color.RED);
 		    	label1.setOpaque(true);
 		    	pane.add(label1,c);
 		    	

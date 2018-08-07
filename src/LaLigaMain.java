@@ -55,6 +55,14 @@ public class LaLigaMain
         for (int i=0; i<teama.size(); i++)
             System.out.println(teama.get(i));
         
+        ArrayList<String> teamb = allTeams[1].getTeamGames();
+		// Printing elements one by one
+		System.out.println(" ");
+		System.out.println("Game schedule for Real Madrid ");
+		System.out.println("---------------------------- ");
+        for (int i=0; i<teamb.size(); i++)
+            System.out.println(teamb.get(i));
+        
         int[][] leagueTable = null;// initialize league table
         int[][] leagueStanding = null; // initialize league standings
         Object[] menuOptions = {"Teams","Match Schedule","Match Simulation","Standings","Exit"};
@@ -77,6 +85,8 @@ public class LaLigaMain
 								allTeams[i].getGamesDrawn(),allTeams[i].getGamesLost(),
 								allTeams[i].getLeaguePoints());
 					}
+					TeamInfo teaminfo = new TeamInfo();
+					teaminfo.teamInfo(allTeams);
 					break;
 					
 				case 1: // match schedule
@@ -84,7 +94,7 @@ public class LaLigaMain
 					System.out.println("--------------------------------------------------------");
 					for(int i=0; i<allMatches.length; i++)
 					{
-						System.out.println("Matchday" + (i+1) + ": "+ allTeams[allMatches[i][0]].getTeamName() + " vs " + allTeams[allMatches[i][1]].getTeamName());
+						System.out.println("Matchday " + (i+1) + ": "+ allTeams[allMatches[i][0]].getTeamName() + " vs " + allTeams[allMatches[i][1]].getTeamName());
 					}
 					break;
 					
@@ -99,11 +109,11 @@ public class LaLigaMain
 					{
 						MatchSimulation simulation1 = new MatchSimulation();
 						leagueStanding = simulation1.leagueStanding(leagueTable);
-												System.out.println("Rank  Teams             Played      Wins        Draws       Losses      Points ");
+						System.out.println("Rank  Teams             Played      Wins        Draws       Losses      Points ");
 						System.out.println("-------------------------------------------------------------------------------");
 						for(int i=0; i<allTeams.length; i++)
 						{
-							System.out.format("%4d%2s%-17s%4d%12d%12d%12d%12d\n", (i+1) , "  " ,
+							System.out.format("%4d%2s%-17s%6d%12d%12d%12d%12d\n", (i+1) , "  " ,
 									allTeams[leagueStanding[i][0]].getTeamName(),
 									allTeams[leagueStanding[i][0]].getGamesPlayed(),
 									allTeams[leagueStanding[i][0]].getGamesWon(),
