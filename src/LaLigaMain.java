@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 public class LaLigaMain 
 {
@@ -8,39 +8,36 @@ public class LaLigaMain
 	{
 		// ask for number of teams in the league
 		int numTeams = 0;
-		int minTeams = 3;
+		int minTeams = 2;
 		do {
-		
-		System.out.println("How many teams in the league? (minimum 3 teams)");		
-		Scanner scanner = new Scanner(System.in);		
-		String num = scanner.nextLine();
-
-		numTeams = Integer.parseInt(num);
+			String num = JOptionPane.showInputDialog(null,"Please enter the number of teams you want to create.");
+			numTeams = Integer.parseInt(num);
 		}
-		while (numTeams<minTeams);
-			
+		while (numTeams<minTeams);		
 		
 		// create an array to store all team information
 		Team[] allTeams = new Team[numTeams];
 		
 		// create teams
-		allTeams[0] = new Team("Barcelona");	
-		allTeams[1] = new Team("Real Madrid", 20);
-		allTeams[2] = new Team("Atletico Madrid", 18);
+		String[] myTeamNames = {"Barcelona","Real Madrid","Atletico Madrid","Valencia","Villareal","Levante","Malaga","Getafe","Atletico Bilbao","Eibar"};
 		
 		System.out.println("                   Teams                         ");
 		System.out.println("-------------------------------------------------");
-		System.out.println("Team 1: " + allTeams[0] .getTeamName() + ", Players = " + allTeams[0].getNumberOfPlayers());
-		System.out.println("Team 2: " + allTeams[1] .getTeamName() + ", Players = " + allTeams[1].getNumberOfPlayers());
-		System.out.println("Team 3: " + allTeams[2] .getTeamName() + ", Players = " + allTeams[2].getNumberOfPlayers());
 		
-		if(numTeams > minTeams)
+		if(numTeams >= minTeams)
 		{
-			for(int i=minTeams; i<numTeams; ++i)
+			for(int i=0; i<numTeams; ++i)
 			{
-				allTeams[i] = new Team();
-				System.out.println("Team " + (i+1) + ": " + allTeams[i].getTeamName() + ", Players = " + allTeams[i].getNumberOfPlayers());
+				if(i<myTeamNames.length)
+				{
+					allTeams[i]=new Team(myTeamNames[i]);
+				}
+				else
+				{
+					allTeams[i] = new Team();
+				}
 				
+				System.out.format("%4s%2d%2s%-17s%10s%2d\n", "Team" , (i+1) , ": " , allTeams[i].getTeamName() , "-> Players = " , allTeams[i].getNumberOfPlayers());				
 			}
 		}
 		
@@ -48,73 +45,76 @@ public class LaLigaMain
 		
 		int allMatches[][] = new int[2][2];
 		allMatches = leagueGames.matchingTeam(allTeams);
-		
-		
-//		for (int i=0; i< mymatches.length ; i++)
-//        {
-//            for (int j=0; j < 2 ; j++)
-//                System.out.print(mymatches[i][j] + " ");
-// 
-//            System.out.println();
-//        }
-		
+				
 		ArrayList<String> teama = allTeams[0].getTeamGames();
-		// Printing elements one by one
-		System.out.println(" ");
-		System.out.println("Game schedule for Barcelona ");
-		System.out.println("---------------------------- ");
-        for (int i=0; i<teama.size(); i++)
-            System.out.println(teama.get(i));
         
-        ArrayList<String> teamb = allTeams[1].getTeamGames();
-		// Printing elements one by one
-		System.out.println(" ");
-		System.out.println("Game schedule for Real Madrid ");
-		System.out.println("---------------------------- ");
-        for (int i=0; i<teamb.size(); i++)
-            System.out.println(teamb.get(i));
-        
-        int exitthis=0;
-        do {
-	
-        // ask for input
-        	System.out.println("Options Menu: ");		
-        	System.out.println("[0]-Match schedule");	
-        	System.out.println("[1]-Team Info");	
-        	System.out.println("[2]-Simulate match");
-        	System.out.println("[3]-League Standing");	
-    		Scanner scan = new Scanner(System.in);		
-    		String answer = scan.nextLine();
-   
-    		int menu = Integer.parseInt(answer);
-		
-		switch (menu)
-		{
-		case 0:
-			System.out.println("all match schedule");
-			break;
-		case 1:
-			System.out.println("Select team number");
-			String teamNum = scan.nextLine();
-    		int num = Integer.parseInt(teamNum);
-			System.out.println("Team info of " + allTeams[num].getTeamName());
-			System.out.println(allTeams[0]);
-			break;
-		case 2:
-			System.out.println("exit");
-			exitthis=1;
-			break;
-		default:
-			System.out.println("all match schedule");
-			exitthis=1;
-			break;
-		}
-		
-        } while(exitthis !=1);
-        
-        MatchSimulation simulation = new MatchSimulation();
-        simulation.start(allTeams, allMatches);
+        int[][] leagueTable = null;// initialize league table
+        int[][] leagueStanding = null; // initialize league standings
+        Object[] menuOptions = {"Teams","Match Schedule","Match Simulation","Standings","Exit"};
+        int answer;
+        do {        	
+        	answer = JOptionPane.showOptionDialog(null, "Pick an option", "Your Options", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, menuOptions, null);
+      
+			switch (answer)
+			{
+			case 0: // team info
+				System.out.println("No.  Teams             Played      Wins        Draws       Losses      Points ");
+				System.out.println("------------------------------------------------------------------------------");
+				for(int i=0; i<allTeams.length; i++)
+				{
+					System.out.format("%2d%2s%-17s%6d%12d%12d%12d%12d\n", (i+1) , "  " ,
+							allTeams[i].getTeamName(),
+							allTeams[i].getGamesPlayed(),allTeams[i].getGamesWon(),
+							allTeams[i].getGamesDrawn(),allTeams[i].getGamesLost(),
+							allTeams[i].getLeaguePoints());
+				}
+				TeamInfo teaminfo = new TeamInfo();
+				teaminfo.teamInfo(allTeams);
+				break;
+				
+			case 1: // match schedule
+				System.out.println("                   League Games                         ");
+				System.out.println("--------------------------------------------------------");
+				for(int i=0; i<allMatches.length; i++)
+				{
+					System.out.println("Matchday " + (i+1) + ": "+ allTeams[allMatches[i][0]].getTeamName() + " vs " + allTeams[allMatches[i][1]].getTeamName());
+				}
+				break;
+				
+			case 2://match simulation
+				MatchSimulation simulation = new MatchSimulation();
+		        leagueTable = simulation.start(allTeams, allMatches);
+				break;
+				
+			case 3: // league standings
+				
+				if(leagueTable!=null)
+				{
+					MatchSimulation simulation1 = new MatchSimulation();
+					leagueStanding = simulation1.leagueStanding(leagueTable);
+					System.out.println("Rank  Teams             Played      Wins        Draws       Losses      Points ");
+					System.out.println("-------------------------------------------------------------------------------");
+					for(int i=0; i<allTeams.length; i++)
+					{
+						System.out.format("%4d%2s%-17s%6d%12d%12d%12d%12d\n", (i+1) , "  " ,
+								allTeams[leagueStanding[i][0]].getTeamName(),
+								allTeams[leagueStanding[i][0]].getGamesPlayed(),
+								allTeams[leagueStanding[i][0]].getGamesWon(),
+								allTeams[leagueStanding[i][0]].getGamesDrawn(),
+								allTeams[leagueStanding[i][0]].getGamesLost(),
+								allTeams[leagueStanding[i][0]].getLeaguePoints());
+					}
+				}
+				else
+				{
+					System.out.println("First run match simulation");
+				}				
+				
+				break;
+				
+			default: 
+				break;
+			}	
+        } while(answer !=4);      
 	}
-
-
 }
