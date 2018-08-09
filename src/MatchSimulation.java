@@ -18,7 +18,6 @@ public class MatchSimulation {
 
 	int[][] start(Team[] allTeams, int[][] allMatches)
 	{
-
 		int[] outcomes= {0,1,1,2};
 		// initialize league table : team no., played, won, drawn, lost, points
 		int[][] leagueTable = new int[allTeams.length][6];
@@ -36,12 +35,10 @@ public class MatchSimulation {
 	    JFrame frame = new JFrame("Match Simulation");
 
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.setSize(frameWidth,frameHeight);
-	    
+	    frame.setSize(frameWidth,frameHeight);	    
 
 	    JPanel pane = new JPanel(new GridBagLayout());
-	    JScrollPane scrollFrame = new JScrollPane(pane, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-	    
+	    JScrollPane scrollFrame = new JScrollPane(pane, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);	    
 
 	    GridBagConstraints c = new GridBagConstraints();
 	    c.fill = GridBagConstraints.HORIZONTAL;
@@ -82,10 +79,12 @@ public class MatchSimulation {
 		// start simulation
 		for(int i=0; i<allMatches.length; i++)
 		{
-			try {
+			try 
+			{
 				Thread.sleep(200);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+			} 
+			catch (InterruptedException e) 
+			{
 				e.printStackTrace();
 			}
 			System.out.println("Matchday "+(i+1)+" :  "+ allTeams[allMatches[i][0]].getTeamName() + " vs " + allTeams[allMatches[i][1]].getTeamName());
@@ -191,8 +190,7 @@ public class MatchSimulation {
 		    	
 		    	pane.revalidate();
 	    	    frame.revalidate();
-				break;
-				
+				break;				
 			}
 		}
 		

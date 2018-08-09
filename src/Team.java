@@ -10,8 +10,7 @@ public class Team {
 	private int gamesLost;
 	private int gamesDrawn;
 	private int leaguePoints;
-	private ArrayList<String> teamGames;
-	
+	private ArrayList<String> teamGames;	
 
 	public Team()
 	{
